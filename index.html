@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ÂM THANH — Music Player</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="bg-layer">
+      <div class="orb" id="orb1"></div>
+      <div class="orb" id="orb2"></div>
+      <div class="orb" id="orb3"></div>
+    </div>
+    <div id="grain"></div>
+    <div id="beat-flash"></div>
+
+    <div id="app">
+      <div id="header">
+        <div id="logo">ÂM THANH</div>
+        <div id="header-meta">
+          Music Player &nbsp;/&nbsp; <span id="status-text">Chờ nhạc...</span>
+        </div>
+      </div>
+
+      <!-- LEFT: Player -->
+      <div id="player-panel">
+
+        <!-- Artwork -->
+        <div id="artwork-wrap">
+          <div id="artwork-bg"></div>
+          <div id="artwork-ring"></div>
+          <div id="artwork-inner">
+            <div id="artwork-icon">🎵</div>
+            <div style="font-size: 13px; color: var(--text2); text-align: center; padding: 0 20px;">
+              Upload nhạc để bắt đầu
+            </div>
+          </div>
+          <div id="artwork-vinyl">
+            <div id="vinyl-disc">
+              <div id="vinyl-grooves"></div>
+              <div id="vinyl-center"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Progress -->
+        <div id="progress-section">
+          <div id="track-name-marquee">
+            <div id="track-name">Chưa có bài nào</div>
+          </div>
+          <div id="progress-bar-wrap">
+            <div id="progress-fill" style="width: 0%"></div>
+            <div id="progress-thumb" style="left: 0%"></div>
+          </div>
+          <div id="time-row">
+            <span id="cur-time">0:00</span>
+            <span id="dur-time">0:00</span>
+          </div>
+        </div>
+
+        <!-- Controls -->
+        <div id="controls-row">
+          <button class="ctrl" id="shuffleBtn" title="Ngẫu nhiên">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="16 3 21 3 21 8" />
+              <line x1="4" y1="20" x2="21" y2="3" />
+              <polyline points="21 16 21 21 16 21" />
+              <line x1="15" y1="15" x2="21" y2="21" />
+            </svg>
+          </button>
+          <button class="ctrl" id="prevBtn" title="Bài trước">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="19 20 9 12 19 4 19 20" />
+              <line x1="5" y1="19" x2="5" y2="5" />
+            </svg>
+          </button>
+          <button id="playBtn" title="Phát / Dừng">
+            <svg id="playIcon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+              <polygon points="5 3 19 12 5 21 5 3" />
+            </svg>
+          </button>
+          <button class="ctrl" id="nextBtn" title="Bài tiếp">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="5 4 15 12 5 20 5 4" />
+              <line x1="19" y1="5" x2="19" y2="19" />
+            </svg>
+          </button>
+          <button class="ctrl" id="repeatBtn" title="Phát lặp">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="17 1 21 5 17 9" />
+              <path d="M3 11V9a4 4 0 0 1 4-4h14" />
+              <polyline points="7 23 3 19 7 15" />
+              <path d="M21 13v2a4 4 0 0 1-4 4H3" />
+            </svg>
+          </button>
+        </div>
+
+        <!-- Volume -->
+        <div id="vol-row">
+          <span id="vol-icon">🔈</span>
+          <input type="range" id="vol-slider" min="0" max="1" step="0.01" value="0.8" />
+          <span id="vol-val">80%</span>
+        </div>
+
+        <!-- Theme -->
+        <div id="theme-row">
+          <span id="theme-label">Màu</span>
+          <div class="tdot active" style="background: linear-gradient(135deg, #7c3aed, #c084fc)" data-h="270"></div>
+          <div class="tdot" style="background: linear-gradient(135deg, #0ea5e9, #38bdf8)" data-h="200"></div>
+          <div class="tdot" style="background: linear-gradient(135deg, #10b981, #6ee7b7)" data-h="160"></div>
+          <div class="tdot" style="background: linear-gradient(135deg, #f59e0b, #fde68a)" data-h="40"></div>
+          <div class="tdot" style="background: linear-gradient(135deg, #ef4444, #fca5a5)" data-h="0"></div>
+          <div class="tdot" style="background: linear-gradient(135deg, #ec4899, #f9a8d4)" data-h="325"></div>
+          <button id="auto-color-btn" title="Đổi màu theo nhạc">🎨 Auto</button>
+          <button id="beat-color-btn" title="Đổi màu khi bass > 20%">🔊 Bass</button>
+        </div>
+      </div>
+
+      <!-- RIGHT: Visualizer + Stats + Playlist -->
+      <div id="right-panel">
+
+        <div id="visualizer-wrap">
+          <canvas id="visCanvas"></canvas>
+          <div id="vis-label">Visualizer</div>
+          <div id="vis-mode-btns">
+            <button class="vis-mode-btn active" data-mode="bars">Cột</button>
+            <button class="vis-mode-btn" data-mode="wave">Sóng</button>
+            <button class="vis-mode-btn" data-mode="circle">Tròn</button>
+            <button class="vis-mode-btn" data-mode="particles">Hạt</button>
+          </div>
+        </div>
+
+        <div id="stats-bar">
+          <div class="stat-card">
+            <div class="stat-label">Năng lượng</div>
+            <div class="stat-val" id="stat-energy">0%</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Tần số cao</div>
+            <div class="stat-val" id="stat-treble">0%</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Bass</div>
+            <div class="stat-val" id="stat-bass">0%</div>
+          </div>
+        </div>
+
+        <div id="playlist-wrap">
+          <div id="playlist-head">
+            <span id="playlist-title">Danh Sách Phát</span>
+            <span id="track-count">0 bài</span>
+            <button id="upload-btn">+ Thêm Nhạc</button>
+            <input type="file" id="fileInput" accept="audio/*" multiple />
+          </div>
+          <div id="playlist-body">
+            <div id="empty-state">
+              <div id="empty-icon">🎧</div>
+              <div id="empty-text">
+                Chưa có bài nhạc nào.<br />Nhấn "+ Thêm Nhạc" để upload.
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <script src="main.js"></script>
+  </body>
+</html>
